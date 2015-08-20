@@ -80,6 +80,16 @@ class Storage
 		return $pos - $idx;
 	}
 
+	/**
+	* Return info about the file using stat function
+	* @link http://php.net/manual/en/function.stat.php
+	*/
+	public function info()
+	{
+		clearstatcache();
+		return stat($this->_path);
+	}
+
 	private function init()
 	{
 		$config = $this->loadConfig();
