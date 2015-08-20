@@ -63,7 +63,7 @@ class Storage
 		}
 
 		$storage = fopen($this->_path, 'cb');
-		fseek($storage, $idx, $false);
+		fseek($storage, $idx, $flag);
 
 		if($flag === SEEK_END){
 			$idx = ftell($storage);
@@ -81,10 +81,9 @@ class Storage
 	private function init()
 	{
 		$config = $this->loadConfig();
-		$this->_path = $config['working_dir'].$this->_id;
-		if(!file_exists($this->_path)){
-			$storage = fopen($this->_path, 'cb') or throw new StorageException("Can't create storage");
-			fclose($storage);
+		$this->_path = $config['storage_settings']['working_dir'].'/'.$this->_id;
+		if(!createFile($this->_path) || !file_exists($this->_path)){
+			throw new StorageException("Can't create storage");
 		}
 
 		return true;

@@ -15,3 +15,21 @@
  	print_r($data);
  	echo '</pre>';
  }
+
+ /**
+ * Create file and directory structure if necesary
+ */
+ function createFile($dir){
+ 	//create dir structure if necesary
+    $parts = explode(DIRECTORY_SEPARATOR, $dir);
+    $file = array_pop($parts);
+    $dir = '';
+    foreach($parts as $part)
+        if(!is_dir($dir .= DIRECTORY_SEPARATOR.$part)) mkdir($dir);
+
+    //create file
+    $handle = fopen("$dir/$file", 'cb');
+    fclose($handle);
+
+    return true;
+}
