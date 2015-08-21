@@ -13,10 +13,11 @@
 namespace acid\storage;
 
 require 'Exceptions.php';
+require 'utils.php';
 
 class Storage
 {
-	private $_config;
+	protected $_config;
 	private $_id;
 	private $_path;
 	protected $Id;
@@ -28,7 +29,7 @@ class Storage
 		$this->init();
 	}
 
-	public function read()
+	public function read($Index = -1, $Length = -1)
 	{
 		$storage = fopen($this->_path, 'rb');
 		$lock = flock($storage, LOCK_EX);
@@ -37,8 +38,8 @@ class Storage
 	        throw new StorageException('Error locking storage');
 	    }
 
-	    $data = stream_get_contents($storage);
-	    if ($res === false) {
+	    $data = stream_get_contents($storage, intval($Length), intval($Index));
+	    if ($data === false) {
 	        flock($storage, LOCK_UN);
 	        fclose($storage);
 	        throw new StorageException('Error reading storage');
@@ -57,12 +58,11 @@ class Storage
 		}
 
 		$flag = SEEK_SET;
-
-		$idx = intval($Index);
-		if(!isset($idx)){
-			$idx = -1;
+		if(!isset($Index)){
 			$flag = SEEK_END;
 		}
+
+		$idx = intval($Index);
 
 		$storage = fopen($this->_path, 'cb');
 		fseek($storage, $idx, $flag);
@@ -71,13 +71,13 @@ class Storage
 			$idx = ftell($storage);
 		}
 
-		fwrite($storage, $Data);
+		$written = fwrite($storage, $Data);
 
 		$pos = ftell($storage);
 
 		fclose($storage);
 
-		return $pos - $idx;
+		return array('idx' => $idx, 'size' => $written, 'current' => $pos);
 	}
 
 	/**
@@ -88,6 +88,19 @@ class Storage
 	{
 		clearstatcache();
 		return stat($this->_path);
+	}
+
+	public function clear($Index = null)
+	{
+		$idx = intval($Index);
+		if($idx < 1){
+			$storage = fopen($this->_path, 'w');
+			fclose($storage);	
+		}else{
+			throw new StorageException("The option to truncate from an index is not yet implemented", 1);
+		}
+
+		return true;
 	}
 
 	private function init()

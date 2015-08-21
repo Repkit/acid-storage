@@ -16,8 +16,32 @@ ini_set('display_errors',1);
 include 'Storage.php';
 include 'utils.php';
 
-$storage = new Storage('cocorico');
-$data = array('name' => 'Coco Rico', 'age' => 21, 'sex' => 'male');
-$res = $storage->write(json_encode($data),42);
+// init storage
+$storage = new acid\storage\Storage('test');
 
-dump($res);
+// clearing the storage
+// $storage->clear();exit('storage cleared');
+
+// // get storage info
+// $info = $storage->info();
+// dump($info);
+
+// //write some data
+// $data = array('id' => 1, 'name' => 'Coco Rico', 'age' => 21, 'sex' => 'male');
+// $res = $storage->write(json_encode($data),0);
+// dump($res);
+
+// // write some other data
+// $data = array('id' => 1, 'name' => 'Coco Rico', 'age' => 121, 'sex' => 'female');
+// $res = $storage->write(json_encode($data));
+// dump($res);
+
+// //get storage info again
+// $info = $storage->info();
+// dump($info);
+
+//read container
+$data = $storage->read();
+dump(json_decode('['.str_replace('}{', '},{', $data).']'));
+
+
