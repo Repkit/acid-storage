@@ -17,9 +17,9 @@ require 'utils.php';
 
 class Storage
 {
-	protected $_config;
 	private $_id;
 	private $_path;
+	protected $_config;
 	protected $Id;
 
 	public function __construct($Id)
@@ -103,10 +103,10 @@ class Storage
 		return true;
 	}
 
-	private function init()
+	protected function init()
 	{
 		$config = $this->loadConfig();
-		$this->_path = $config['storage_settings']['working_dir'].'/'.$this->_id;
+		$this->_path = $config['storage_settings']['working_dir'].DIRECTORY_SEPARATOR.$this->_id.$config['storage_settings']['sufix'];
 		if(!createFile($this->_path) || !file_exists($this->_path)){
 			throw new StorageException("Can't create storage");
 		}
@@ -114,10 +114,9 @@ class Storage
 		return true;
 	}
 
-	private function loadConfig()
+	protected function loadConfig()
 	{
 		return $this->_config = require 'storage.config.php';
 	}
-
 
 }

@@ -10,7 +10,9 @@
  * @since      2015-08-17
  */
 
-class StorageException extends RuntimeException
+namespace acid\storage;
+
+class StorageException extends \RuntimeException
 {
 
 }

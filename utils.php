@@ -28,7 +28,7 @@
         if(!is_dir($dir .= DIRECTORY_SEPARATOR.$part)) mkdir($dir);
 
     //create file
-    $handle = fopen("$dir/$file", 'cb');
+    $handle = fopen($dir.DIRECTORY_SEPARATOR.$file, 'cb');
     fclose($handle);
 
     return true;

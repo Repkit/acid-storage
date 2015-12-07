@@ -12,6 +12,7 @@
 
 $storage_settings = array(
 	'working_dir' => getcwd().'/data',
+	'sufix' => '.rpk.storage',
 );
 
 // do not edit bellow this line
