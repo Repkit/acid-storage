@@ -10,7 +10,7 @@
  * @since      2015-08-17
  */
 
-namespace acid\storage;
+namespace RpkAcidStorage;
 
 class StorageException extends \RuntimeException
 {

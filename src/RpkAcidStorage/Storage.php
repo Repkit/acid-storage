@@ -10,10 +10,10 @@
  * @since      2015-08-17
  */
 
-namespace acid\storage;
+namespace RpkAcidStorage;
 
-require 'Exceptions.php';
-require 'utils.php';
+use RpkAcidStorage\StorageException;
+use RpkUtils\Os\File as OsFile;
 
 class Storage
 {
@@ -107,7 +107,7 @@ class Storage
 	{
 		$config = $this->loadConfig();
 		$this->_path = $config['storage_settings']['working_dir'].DIRECTORY_SEPARATOR.$this->_id.$config['storage_settings']['sufix'];
-		if(!createFile($this->_path) || !file_exists($this->_path)){
+		if(!OsFile::create($this->_path) || !file_exists($this->_path)){
 			throw new StorageException("Can't create storage");
 		}
 

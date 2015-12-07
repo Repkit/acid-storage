@@ -13,11 +13,10 @@
 error_reporting(-1);
 ini_set('display_errors',1);
 
-include 'Storage.php';
-include 'utils.php';
+require '../vendor/autoload.php';
 
 // init storage
-$storage = new acid\storage\Storage('test');
+$storage = new RpkAcidStorage\Storage('test');
 
 // clearing the storage
 // $storage->clear();exit('storage cleared');
@@ -44,4 +43,8 @@ $storage = new acid\storage\Storage('test');
 $data = $storage->read();
 dump(json_decode('['.str_replace('}{', '},{', $data).']'));
 
-
+function dump($data){
+ 	echo '<pre>';
+ 	print_r($data);
+ 	echo '</pre>';
+ }
