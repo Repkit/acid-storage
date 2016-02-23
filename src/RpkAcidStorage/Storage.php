@@ -22,10 +22,11 @@ class Storage
 	protected $_config;
 	protected $Id;
 
-	public function __construct($Id)
+	public function __construct($Id,$Token = '')
 	{
 		$this->Id = $Id;
-		$this->_id = session_id().$Id;
+		//$this->_id = session_id().$Id;
+		$this->_id = $Token . $Id;
 		$this->init();
 	}
 
