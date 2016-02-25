@@ -35,8 +35,10 @@ class Storage
 		$storage = fopen($this->_path, 'rb');
 		$lock = flock($storage, LOCK_EX);
 		if (!$lock) {
-	        fclose($storage);
-	        throw new StorageException('Error locking storage');
+			if(stat($this->_path)[3] != 1){
+				fclose($storage);
+	        	throw new StorageException('Error locking storage');
+			}
 	    }
 
 	    $data = stream_get_contents($storage, intval($Length), intval($Index));
