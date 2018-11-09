@@ -15,7 +15,7 @@
     "require": {
         "php": ">=5.3.23"
         ,
-        "rpk/php-toolbox": "0.2.*"
+        "rpk/php-toolbox": "~0.3"
     },
     "autoload": {
         "psr-4": {"RpkAcidStorage\\": "src/RpkAcidStorage"}
